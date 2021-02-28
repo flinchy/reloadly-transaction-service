@@ -44,6 +44,8 @@ app:
 management.endpoint.health.show-details: "ALWAYS"
 management.endpoints.web.exposure.include: "*"
 
+transaction-server-health: https://reloadly-transaction-service.herokuapp.com/actuator/health
+
 ---
 spring:
   datasource:

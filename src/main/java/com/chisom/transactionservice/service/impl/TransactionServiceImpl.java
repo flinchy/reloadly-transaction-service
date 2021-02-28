@@ -9,10 +9,15 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static com.chisom.transactionservice.utils.TransactionServiceUtils.validatePageNumber;
@@ -25,15 +30,20 @@ public class TransactionServiceImpl implements TransactionService {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final TransactionRepository transactionRepository;
+    private final RestTemplate restTemplate;
+    private final String transactionUrl;
     private final ModelMapper modelMapper;
     private static final int LIMIT = 10;
 
     @Autowired
     public TransactionServiceImpl(
             TransactionRepository transactionRepository,
-            ModelMapper modelMapper
+            RestTemplate restTemplate, ModelMapper modelMapper,
+            @Value("${transaction-server-health}") String transactionUrl
     ) {
         this.transactionRepository = transactionRepository;
+        this.restTemplate = restTemplate;
+        this.transactionUrl = transactionUrl;
         this.modelMapper = modelMapper;
     }
 
@@ -96,5 +106,19 @@ public class TransactionServiceImpl implements TransactionService {
                 .amount(transaction.getAmount())
                 .narration(transaction.getNarration())
                 .build();
+    }
+
+    /**
+     * ping url every 5min to keep alive
+     */
+    @Async
+    @Scheduled(fixedRate = 300000)
+    public void health() {
+        try {
+            CompletableFuture.runAsync(() ->
+                    restTemplate.getForObject(transactionUrl, Object.class));
+        } catch (Exception e) {
+            log.error("caught an exception :::", e);
+        }
     }
 }
