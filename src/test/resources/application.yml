@@ -8,3 +8,5 @@ spring:
       ddl-auto: update
   profiles:
     active: test
+
+transaction-server-health: https://relo.com

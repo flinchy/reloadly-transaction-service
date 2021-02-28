@@ -34,6 +34,8 @@ eureka:
   instance:
     leaseRenewalIntervalInSeconds: 5
     leaseExpirationDurationInSeconds: 5
+    hostname: localhost
+
 
 app:
   auth-service:
@@ -50,6 +52,8 @@ transaction-server-health: https://reloadly-transaction-service.herokuapp.com/ac
 spring:
   datasource:
     url: jdbc:postgresql://postgres/transaction_db
+    username: postgres
+    password: postgres
   config:
     activate:
       on-profile: docker
