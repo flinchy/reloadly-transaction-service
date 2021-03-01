@@ -1,4 +1,3 @@
-
 server.port: 8084
 server.error.include-message: always
 
@@ -48,6 +47,23 @@ management.endpoints.web.exposure.include: "*"
 
 transaction-server-health: https://reloadly-transaction-service.herokuapp.com/actuator/health
 
+api:
+
+  description: |
+    ### Rest Endpoint for Transaction Microservice.
+    add token Obtained during login to the header of every request to enable
+    you access to the secured resource.
+
+    ### Using swagger and Token
+    To use the secured endpoints with swagger, click the Authorize button and
+    add the token obtained during Login.
+    e.g Bearer 'token-value'
+
+  transaction:
+    create:
+      description: (For Service to Service use Only) do not use.
+
+    get-user: get a transactions for a user
 ---
 spring:
   datasource:
