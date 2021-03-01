@@ -111,14 +111,14 @@ public class TransactionServiceImpl implements TransactionService {
     /**
      * ping url every 5min to keep alive
      */
-    @Async
-    @Scheduled(fixedRate = 300000)
-    public void health() {
-        try {
-            CompletableFuture.runAsync(() ->
-                    restTemplate.getForObject(transactionUrl, Object.class));
-        } catch (Exception e) {
-            log.error("caught an exception :::", e);
-        }
-    }
+//    @Async
+//    @Scheduled(fixedRate = 300000)
+//    public void health() {
+//        try {
+//            CompletableFuture.runAsync(() ->
+//                    restTemplate.getForObject(transactionUrl, Object.class));
+//        } catch (Exception e) {
+//            log.error("caught an exception :::", e);
+//        }
+//    }
 }
