@@ -28,11 +28,16 @@ public class JwtAuthProvider extends AbstractUserDetailsAuthenticationProvider {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private ConfigUtils configUtils;
+    private final ConfigUtils configUtils;
+
+    private final RestTemplate restTemplate;
 
     @Autowired
-    private RestTemplate restTemplate;
+    public JwtAuthProvider(ConfigUtils configUtils, RestTemplate restTemplate
+    ) {
+        this.configUtils = configUtils;
+        this.restTemplate = restTemplate;
+    }
 
     @Override
     protected void additionalAuthenticationChecks(
