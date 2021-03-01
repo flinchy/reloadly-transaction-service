@@ -39,8 +39,8 @@ eureka:
 
 app:
   auth-service:
-    loginUrl: http://auth-service/oauth/token
-    validateUrl: http://auth-service/oauth/check_token?token=
+    loginUrl: https://reloadly-auth-server.herokuapp.com/oauth/token
+    validateUrl: https://reloadly-auth-server.herokuapp.com/oauth/check_token?token=
     basicAuth: Basic dGVzdDp0ZW1w
 
 management.endpoint.health.show-details: "ALWAYS"
